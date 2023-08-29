@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterSprite: []
   MoveSpeed: 1
+  MaxHp: 5
 --- !u!50 &5295915182150479027
 Rigidbody2D:
   serializedVersion: 4
@@ -135,9 +136,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.055045545, y: 0.26326308}
+  m_Offset: {x: -0.0044751316, y: 0.13237894}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.28, y: 0, z: 0.29, w: 0.93}
     pivot: {x: 0.5, y: 0}
     oldSize: {x: 1.28, y: 1.28}
     newSize: {x: 1.28, y: 1.28}
@@ -146,5 +147,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6469766, y: 0.52652615}
+  m_Size: {x: 0.54583573, y: 0.26475787}
   m_EdgeRadius: 0

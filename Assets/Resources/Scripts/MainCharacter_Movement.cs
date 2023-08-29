@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class MainCharacter_Movement : MonoBehaviour
 {
-    private Rigidbody2D rigidbody2D;
+    private Rigidbody2D  rigidbody2D;
     private int currentHp;//角色当前生命值
     
 
-    public Sprite[] CharacterSprite;
-    public int MoveSpeed = 0;
-    public int MaxHp=5;//角色最大生命值上限
+    public Sprite[] characterSprite;
+    public int moveSpeed = 3;
+    public int maxHp=5;//角色最大生命值上限
 
 
 
@@ -19,7 +19,8 @@ public class MainCharacter_Movement : MonoBehaviour
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
-        currentHp = MaxHp;
+        currentHp = maxHp;
+        
     }
 
     // Update is called once per frame
@@ -27,7 +28,7 @@ public class MainCharacter_Movement : MonoBehaviour
     {
 
         Movement();
-        HP_Control(0);
+        
 
     }
     private void FixedUpdate()
@@ -68,13 +69,13 @@ public class MainCharacter_Movement : MonoBehaviour
         Vector2 position=transform.position;
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
-        position.x = position.x+3*h * Time.fixedDeltaTime;
-        position.y=position.y+3*v* Time.fixedDeltaTime;
+        position.x = position.x+moveSpeed*h * Time.fixedDeltaTime;
+        position.y=position.y+moveSpeed*v* Time.fixedDeltaTime;
         rigidbody2D.MovePosition(position);
     }
-    private void HP_Control(int amount)
+    public  void HP_Control(int amount)
     {
-        currentHp = Mathf.Clamp(currentHp + amount, 0, MaxHp);      
-        Debug.Log(currentHp+"/"+MaxHp);
+        currentHp = Mathf.Clamp(currentHp + amount, 0, maxHp);      
+        Debug.Log(currentHp+"/"+maxHp);
     }
 }

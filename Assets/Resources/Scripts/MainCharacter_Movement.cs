@@ -7,11 +7,15 @@ public class MainCharacter_Movement : MonoBehaviour
 {
     private Rigidbody2D  rigidbody2D;
     private int currentHp;//角色当前生命值
-    
+
+
 
     public Sprite[] characterSprite;
     public int moveSpeed = 3;
     public int maxHp=5;//角色最大生命值上限
+
+    //属性的使用
+    public int Health { get { return currentHp; } set { currentHp=value; } }
 
 
 

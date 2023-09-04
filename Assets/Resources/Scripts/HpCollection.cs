@@ -17,8 +17,8 @@ public class HpCollection : MonoBehaviour
             {
                 //主角不是满血时
                 // Ruby.currentHp = Ruby.currentHp + 1;
-                Ruby.Health = Ruby.Health + 1;
-                //Ruby.HP_Control(1);//与上面的二选一，上面是运用属性的下面的调用别的脚本当中的public方法 论安全性应该是上面的属性更高
+                //Ruby.Health = Ruby.Health + 1;
+                Ruby.HP_Control(1);//与上面的二选一，上面是运用属性的下面的调用别的脚本当中的public方法 论安全性应该是上面的属性更高
                 Destroy(gameObject);
             }
             

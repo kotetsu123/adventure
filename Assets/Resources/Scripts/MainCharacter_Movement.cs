@@ -5,14 +5,20 @@ using UnityEngine;
 
 public class MainCharacter_Movement : MonoBehaviour
 {
-    private Rigidbody2D  rigidbody2D;
+    private Rigidbody2D  rigidbody2d;
+    private bool isUnattackable=false;//是否是无敌
+    private float unAttackableTimer;//无敌计时器
+    //角色生命值
     private int currentHp;//角色当前生命值
-
+    public int maxHp = 5;//角色最大生命值上限
 
 
     public Sprite[] characterSprite;
     public int moveSpeed = 3;
-    public int maxHp=5;//角色最大生命值上限
+    //角色的无敌时间常量
+    public float timeUnattackable = 2.0f;
+
+   
 
     //属性的使用
     public int Health { get { return currentHp; } set { currentHp=value; } }
@@ -22,8 +28,9 @@ public class MainCharacter_Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        rigidbody2d = GetComponent<Rigidbody2D>();
         currentHp = maxHp;
+        
         
     }
 
@@ -32,6 +39,14 @@ public class MainCharacter_Movement : MonoBehaviour
     {
 
         Movement();
+        if (isUnattackable)
+        {
+            unAttackableTimer = unAttackableTimer - Time.deltaTime;
+            if (unAttackableTimer <= 0)
+            {
+                isUnattackable = false;
+            }
+        }
         
 
     }
@@ -75,10 +90,22 @@ public class MainCharacter_Movement : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         position.x = position.x+moveSpeed*h * Time.fixedDeltaTime;
         position.y=position.y+moveSpeed*v* Time.fixedDeltaTime;
-        rigidbody2D.MovePosition(position);
+        rigidbody2d.MovePosition(position);
     }
     public  void HP_Control(int amount)
     {
+        
+        if (amount < 0)
+        {
+            if (isUnattackable == true)
+            {
+                return;
+            }
+            //收到伤害
+            isUnattackable = true;
+            unAttackableTimer = timeUnattackable;
+        }
+
         currentHp = Mathf.Clamp(currentHp + amount, 0, maxHp);      
         Debug.Log(currentHp+"/"+maxHp);
     }

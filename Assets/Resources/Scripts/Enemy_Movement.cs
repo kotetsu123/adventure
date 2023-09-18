@@ -14,12 +14,16 @@ public class Enemy_Movement : MonoBehaviour
     private int direction = 1;//轴向控制
     public float changeTime = 3.0f;//时间常量
     private float timer;//计时器
+    private Animator monsterAnimator;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         timer = changeTime;//给计时器附上初始值
+        monsterAnimator = GetComponent<Animator>();
+        monsterAnimator.SetFloat("MoveX", direction);
+        monsterAnimator.SetBool("Vertical",vertical);
     }
 
     // Update is called once per frame
@@ -30,6 +34,7 @@ public class Enemy_Movement : MonoBehaviour
         if (timer <= 0)
         {
             direction = -direction;
+            monsterAnimator.SetFloat("MoveX", direction);
             timer = changeTime;
         }
     }

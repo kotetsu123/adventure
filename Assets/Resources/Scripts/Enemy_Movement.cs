@@ -22,8 +22,9 @@ public class Enemy_Movement : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
         timer = changeTime;//给计时器附上初始值
         monsterAnimator = GetComponent<Animator>();
-        monsterAnimator.SetFloat("MoveX", direction);
-        monsterAnimator.SetBool("Vertical",vertical);
+        /* monsterAnimator.SetFloat("MoveX", direction);
+         monsterAnimator.SetBool("Vertical",vertical);*/
+        MonsterPlayAnimation();
     }
 
     // Update is called once per frame
@@ -34,7 +35,8 @@ public class Enemy_Movement : MonoBehaviour
         if (timer <= 0)
         {
             direction = -direction;
-            monsterAnimator.SetFloat("MoveX", direction);
+            //monsterAnimator.SetFloat("MoveX", direction);
+            MonsterPlayAnimation();
             timer = changeTime;
         }
     }
@@ -51,12 +53,27 @@ public class Enemy_Movement : MonoBehaviour
         }
         rigidbody2d.MovePosition(position);
     }
+    //触发检测  
     private void OnCollisionEnter2D(Collision2D collision)
     {
         MainCharacter_Movement Ruby = collision.gameObject.GetComponent<MainCharacter_Movement>();
         if (Ruby != null)
         {
             Ruby.HP_Control(-1);
+        }
+    }
+    //怪物动画的播放
+    private void MonsterPlayAnimation()
+    {
+        if (vertical)//垂直轴向动画的控制
+        {
+            monsterAnimator.SetFloat("MoveX", 0);
+            monsterAnimator.SetFloat("MoveY", direction);
+        }
+        else//水平轴向的动画控制
+        {
+            monsterAnimator.SetFloat("MoveX", direction);
+            monsterAnimator.SetFloat("MoveY", 0);
         }
     }
 

@@ -8,6 +8,9 @@ public class MainCharacter_Movement : MonoBehaviour
     private Rigidbody2D  rigidbody2d;
     private bool isUnattackable=false;//是否是无敌
     private float unAttackableTimer;//无敌计时器
+    private Vector2 lookDirection = new Vector2(0, -1);//初始朝向
+    private Animator rubyAnimator;
+
     //角色生命值
     private int currentHp;//角色当前生命值
     public int maxHp = 5;//角色最大生命值上限
@@ -17,6 +20,8 @@ public class MainCharacter_Movement : MonoBehaviour
     public int moveSpeed = 3;
     //角色的无敌时间常量
     public float timeUnattackable = 2.0f;
+
+    public GameObject bulletPrefab;
 
    
 
@@ -30,6 +35,7 @@ public class MainCharacter_Movement : MonoBehaviour
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         currentHp = maxHp;
+        rubyAnimator=GetComponent<Animator>();
         
         
     }
@@ -46,6 +52,10 @@ public class MainCharacter_Movement : MonoBehaviour
             {
                 isUnattackable = false;
             }
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Launch();
         }
         
 
@@ -88,8 +98,21 @@ public class MainCharacter_Movement : MonoBehaviour
         Vector2 position=transform.position;
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
+        Vector2 move = new Vector2(h, v);
+        if (!Mathf.Approximately(move.x,0)||!Mathf.Approximately(move.y,0))//当前玩家输入的轴向不为0
+        {
+            lookDirection.Set(move.x, move.y);//lookDirection=move;
+            lookDirection.Normalize();//归一化，返回大小为1的向量。因为不需要上面的实际的数量大小，只需要它的向量。
+        }
+        rubyAnimator.SetFloat("Look X",lookDirection.x);
+        rubyAnimator.SetFloat("Look Y", lookDirection.y);
+        rubyAnimator.SetFloat("Speed", move.magnitude);
+       /* //x轴上的移动
         position.x = position.x+moveSpeed*h * Time.fixedDeltaTime;
-        position.y=position.y+moveSpeed*v* Time.fixedDeltaTime;
+        //y轴上的移动
+        position.y=position.y+moveSpeed*v* Time.fixedDeltaTime;*/
+        //合并的代码
+        position = position + moveSpeed * move * Time.fixedDeltaTime;
         rigidbody2d.MovePosition(position);
     }
     public  void HP_Control(int amount)
@@ -108,5 +131,13 @@ public class MainCharacter_Movement : MonoBehaviour
 
         currentHp = Mathf.Clamp(currentHp + amount, 0, maxHp);      
         Debug.Log(currentHp+"/"+maxHp);
+    }
+    private void Launch()
+    {
+        GameObject bulletObject = Instantiate(bulletPrefab, rigidbody2d.position, Quaternion.identity);
+        Bullet bullet = bulletObject.GetComponent<Bullet>();
+        bullet.Launch(lookDirection,300f);
+        rubyAnimator.SetTrigger("Launch");
+
     }
 }

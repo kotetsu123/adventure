@@ -22,7 +22,10 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (transform.position.magnitude > 100)
+        {
+            Destroy(gameObject);
+        }
     }
     public void Launch(Vector2 direction, float force)
     {
@@ -30,8 +33,14 @@ public class Bullet : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("collsion the GameObjcet is : " + collision.gameObject);
-        //Destroy(gameObject);
-
+        //Debug.Log("collsion the GameObjcet is : " + collision.gameObject);
+        
+        Enemy_Movement enemyControler=collision.gameObject.GetComponent<Enemy_Movement>();
+        if (enemyControler != null)
+        {
+            enemyControler.FixedRobot();
+        }
+        Destroy(gameObject);
     }
+    
 }

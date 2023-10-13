@@ -15,10 +15,13 @@ public class Enemy_Movement : MonoBehaviour
     public float changeTime = 3.0f;//时间常量
     private float timer;//计时器
     private Animator monsterAnimator;
+    //当前机器人状态(是否具有攻击性)
+    private bool broken;
 
     // Start is called before the first frame update
     void Start()
     {
+        broken = true;
         rigidbody2d = GetComponent<Rigidbody2D>();
         timer = changeTime;//给计时器附上初始值
         monsterAnimator = GetComponent<Animator>();
@@ -30,6 +33,10 @@ public class Enemy_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!broken)
+        {
+            return;//停止移动,
+        }
         Movement();
         timer -= Time.deltaTime;//时间的递减是等于该变量的
         if (timer <= 0)
@@ -76,5 +83,10 @@ public class Enemy_Movement : MonoBehaviour
             monsterAnimator.SetFloat("MoveY", 0);
         }
     }
-
+    public void FixedRobot()
+    {
+        broken = false;
+        rigidbody2d.simulated = false;//不模拟刚体，也就是说等同于关闭了刚体组件;
+        monsterAnimator.SetTrigger("Fixed");
+    }
 }

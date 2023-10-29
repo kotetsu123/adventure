@@ -23,7 +23,8 @@ public class MainCharacter_Movement : MonoBehaviour
 
     public GameObject bulletPrefab;
 
-   
+    public static MainCharacter_Movement instance;
+    private static MainCharacter_Movement Instance { get => instance; set => instance = value; }
 
     //属性的使用
     public int Health { get { return currentHp; } set { currentHp=value; } }
@@ -31,6 +32,10 @@ public class MainCharacter_Movement : MonoBehaviour
 
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -131,6 +136,7 @@ public class MainCharacter_Movement : MonoBehaviour
 
         currentHp = Mathf.Clamp(currentHp + amount, 0, maxHp);      
         Debug.Log(currentHp+"/"+maxHp);
+        rubyAnimator.SetTrigger("Hit");
     }
     private void Launch()
     {

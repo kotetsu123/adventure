@@ -18,6 +18,7 @@ public class DamageZone : MonoBehaviour
             // Ruby.Health = Ruby.Health - 1;
             Ruby.HP_Control(-1);
             Debug.Log(Ruby.Health);
+
         }
     }
 }

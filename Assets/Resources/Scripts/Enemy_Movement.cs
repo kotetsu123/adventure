@@ -6,6 +6,7 @@ public class Enemy_Movement : MonoBehaviour
 {
     public float speed;
     public bool vertical;
+    public ParticleSystem smokeEffect;//烟雾系统
 
     private Rigidbody2D rigidbody2d;
     
@@ -88,5 +89,6 @@ public class Enemy_Movement : MonoBehaviour
         broken = false;
         rigidbody2d.simulated = false;//不模拟刚体，也就是说等同于关闭了刚体组件;
         monsterAnimator.SetTrigger("Fixed");
+        smokeEffect.Stop();
     }
 }

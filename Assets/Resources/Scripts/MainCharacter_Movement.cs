@@ -22,6 +22,7 @@ public class MainCharacter_Movement : MonoBehaviour
     public float timeUnattackable = 2.0f;
 
     public GameObject bulletPrefab;
+    public ParticleSystem hpEffect;
 
     public static MainCharacter_Movement instance;
     private static MainCharacter_Movement Instance { get => instance; set => instance = value; }

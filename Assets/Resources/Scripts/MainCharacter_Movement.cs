@@ -137,6 +137,7 @@ public class MainCharacter_Movement : MonoBehaviour
 
         currentHp = Mathf.Clamp(currentHp + amount, 0, maxHp);      
         Debug.Log(currentHp+"/"+maxHp);
+        UiHealthBar.instance.SetValue(currentHp / (float)maxHp);
         rubyAnimator.SetTrigger("Hit");
     }
     private void Launch()

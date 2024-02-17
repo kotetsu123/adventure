@@ -63,6 +63,11 @@ public class MainCharacter_Movement : MonoBehaviour
         {
             Launch();
         }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            TalkWithNPC();
+           
+        }
         
 
     }
@@ -147,5 +152,17 @@ public class MainCharacter_Movement : MonoBehaviour
         bullet.Launch(lookDirection,300f);
         rubyAnimator.SetTrigger("Launch");
 
+    }
+    private void TalkWithNPC()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("Npc"));
+        if (hit.collider != null)
+        {
+            NPC npc = hit.collider.GetComponent<NPC>();
+            if (npc != null)
+            {
+                npc.DisPlayDialog();
+            }
+        }
     }
 }

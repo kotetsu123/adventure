@@ -24,6 +24,12 @@ public class MainCharacter_Movement : MonoBehaviour
     public GameObject bulletPrefab;
     public ParticleSystem hpEffect;
 
+    public AudioSource audioSource;
+    public AudioSource WalkAudioSource;
+
+    public AudioClip playerHit;
+    public AudioClip walkSound;
+
     public static MainCharacter_Movement instance;
     private static MainCharacter_Movement Instance { get => instance; set => instance = value; }
 
@@ -42,8 +48,8 @@ public class MainCharacter_Movement : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
         currentHp = maxHp;
         rubyAnimator=GetComponent<Animator>();
-        
-        
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -74,6 +80,10 @@ public class MainCharacter_Movement : MonoBehaviour
     private void FixedUpdate()
     {
        
+    }
+    public void PlaySound(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
     }
     private void Movement()
     {
@@ -114,6 +124,16 @@ public class MainCharacter_Movement : MonoBehaviour
         {
             lookDirection.Set(move.x, move.y);//lookDirection=move;
             lookDirection.Normalize();//归一化，返回大小为1的向量。因为不需要上面的实际的数量大小，只需要它的向量。
+            if (!WalkAudioSource.isPlaying)
+            {
+                WalkAudioSource.clip = walkSound;
+                WalkAudioSource.Play();
+            }
+
+        }
+        else
+        {
+            WalkAudioSource.Stop();
         }
         rubyAnimator.SetFloat("Look X",lookDirection.x);
         rubyAnimator.SetFloat("Look Y", lookDirection.y);
@@ -144,6 +164,7 @@ public class MainCharacter_Movement : MonoBehaviour
         Debug.Log(currentHp+"/"+maxHp);
         UiHealthBar.instance.SetValue(currentHp / (float)maxHp);
         rubyAnimator.SetTrigger("Hit");
+        PlaySound(playerHit);
     }
     private void Launch()
     {
